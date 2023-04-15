@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
+import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { app } from '../firebase/firebase.init';
 
 const Register = () => {
+    const auth = getAuth(app)
+
+    const [user, setUser] = useState([])
+
     const handleMailId = (e) => {
         e.preventDefault();
-        console.log(e.target.email.value)
+        const email = e.target.mail.value
+        const password = e.target.pass.value
+        
+        createUserWithEmailAndPassword(auth, email, password)
+        .then(res => {
+            const loggedUser = res.user
+            console.log(loggedUser)
+            setUser(loggedUser)
+        })
+        .catch(err => {
+            // console.log(err.code)
+            console.log(err.message)
+        })
+        
+        
     }
 
     return (

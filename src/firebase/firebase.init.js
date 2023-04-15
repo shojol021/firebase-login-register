@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDnQhH7vMzIdDIAqv5OCKWEM-GJ--LqnqA",
-  authDomain: "fir-twitter-login-41657.firebaseapp.com",
-  projectId: "fir-twitter-login-41657",
-  storageBucket: "fir-twitter-login-41657.appspot.com",
-  messagingSenderId: "381113335010",
-  appId: "1:381113335010:web:8586596272c201f53272bb"
+  apiKey: "AIzaSyDkhNMthn9j2UEmAvnZ_6ATO8qonVP8LIQ",
+  authDomain: "fir-login-register-12716.firebaseapp.com",
+  projectId: "fir-login-register-12716",
+  storageBucket: "fir-login-register-12716.appspot.com",
+  messagingSenderId: "321442165769",
+  appId: "1:321442165769:web:92dcc3ccdf0e7a5ddcb4d8"
 };
 
 // Initialize Firebase
