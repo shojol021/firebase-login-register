@@ -1,5 +1,5 @@
-import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react';
+import { getAuth, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useRef, useState } from 'react';
 import { app } from '../firebase/firebase.init';
 import { Link } from 'react-router-dom';
 
@@ -8,6 +8,9 @@ const auth = getAuth(app)
 const Login = () => {
     const [error, setError] = useState('')
     const [succsess, setSuccess] = useState('')
+    const [password, setPassword] = useState('password')
+    const [isTrue, setIsTrue] = useState(true)
+    const emailField = useRef()
 
     const handleLogin = event => {
 
@@ -32,7 +35,7 @@ const Login = () => {
                 const loggedUser = userDetails.user;
                 console.log(loggedUser)
                 setSuccess('Successfully logged in')
-                if(!loggedUser.emailVerified){
+                if (!loggedUser.emailVerified) {
                     verifyEmail(loggedUser)
                 }
             })
@@ -44,14 +47,33 @@ const Login = () => {
 
     const verifyEmail = (loggedUser) => {
         sendEmailVerification(loggedUser)
-        .then(res => {
-            console.log(res)
-            alert(`A verification email sent to ${loggedUser.email}`)
-        })
-        .catch(error => {
-            console.log(error.code)
-            console.log(error.message)
-        })
+            .then(res => {
+                console.log(res)
+                alert(`A verification email sent to ${loggedUser.email}`)
+            })
+            .catch(error => {
+                console.log(error.code)
+                console.log(error.message)
+            })
+    }
+
+    const resetPassword = () => {
+        const email = emailField.current.value;
+
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                alert('Password reset email sent!')
+            })
+            .catch((error) => {
+                console.log(error.code);
+                console.log(error.message);
+            });
+    }
+
+    let check = true;
+    const handleShowPassowrd = (check) => {
+        console.log(check)
+        check? setPassword('password') : setPassword('text');
     }
 
     return (
@@ -59,16 +81,18 @@ const Login = () => {
             <form onSubmit={handleLogin} className='w-25'>
                 <div className="form-group mb-2">
                     <label htmlFor="email">Email address</label>
-                    <input type="email" className="form-control" id="email" placeholder="Enter email" />
+                    <input ref={emailField} type="email" className="form-control" id="email" placeholder="Enter email" required />
                 </div>
                 <div className="form-group mb-2">
                     <label htmlFor="password">Password</label>
-                    <input type="password" className="form-control" id="password" placeholder="Password" />
+                    <input type={password} className="form-control" id="password" placeholder="Password" required />
+                    <p><small onClick={() => handleShowPassowrd(setIsTrue(!check))} className='btn btn-link'>Show Password</small></p>
                 </div>
                 <p className='text-danger'>{error}</p>
                 <p className='text-success'>{succsess}</p>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
+            <p><small>Forgot Password? <button onClick={resetPassword} className='btn btn-link'> Reset</button></small></p>
             <p><small>New to this website? Please <Link to='/register'>Register</Link></small></p>
         </div>
     );

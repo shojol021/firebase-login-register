@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { app } from '../firebase/firebase.init';
 import { Link } from 'react-router-dom';
 
@@ -16,6 +16,7 @@ const Register = () => {
 
         const email = e.target.mail.value
         const password = e.target.pass.value
+        const name = e.target.name.value
 
         if (!/(?=.*[A-Z])/.test(password)) {
             setError('please at least 1 uppercase')
@@ -35,6 +36,7 @@ const Register = () => {
                 setError('')
                 setSuccess('successfully signed up')
                 e.target.reset()
+                handleUserName(loggedUser, name)
 
             })
             .catch(err => {
@@ -42,13 +44,20 @@ const Register = () => {
                 console.log(err.message)
                 setError(err.message)
             })
+    }
 
-
+    const handleUserName = (user, name) => {
+        updateProfile(user, {
+            displayName: name
+        } )
     }
 
     return (
         <div>
             <form onSubmit={handleMailId}>
+                <p>Name</p>
+                <input type="text" name='name' id="name" placeholder='Enter your name' required />
+                <br />
                 <p>Email Address</p>
                 <input type="email" name='mail' id="mid" placeholder='Enter your email' required />
                 <br />
