@@ -16,9 +16,17 @@ const Register = () => {
         const email = e.target.mail.value
         const password = e.target.pass.value
 
-        if(!/(?=.*[A-Z])/.test(password)){
-            setError('At least one uppercase')
-            
+        if (!/(?=.*[A-Z])/.test(password)) {
+            setError('please at least 1 uppercase')
+            return;
+        }
+        else if (!/(?=.[0-9])/.test(password)) {
+            setError('at least one numeric')
+            return
+        }
+        else if (!/(?=.[!"£$%^&*(){}[]:;'@?><.,])/.test(password)) {
+            setError('at least one special character')
+            return
         }
         
         createUserWithEmailAndPassword(auth, email, password)
