@@ -25,10 +25,7 @@ const Register = () => {
             setError('at least one numeric')
             return
         }
-        else if (!/(?=.[!"£$%^&*(){}[]:;'@?><.,])/.test(password)) {
-            setError('at least one special character')
-            return
-        }
+
 
         createUserWithEmailAndPassword(auth, email, password)
             .then(res => {
@@ -60,7 +57,7 @@ const Register = () => {
                 <br />
                 <p className='text-danger'>{error}</p>
                 <p className='text-success'>{success}</p>
-                <input type="submit" value="register" />
+                <input className='btn btn-primary' type="submit" value="register" />
             </form>
             <p><small>Already have an account? Please <Link to='/login'>Login</Link> here</small></p>
         </div>
