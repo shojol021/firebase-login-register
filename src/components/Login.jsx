@@ -1,6 +1,7 @@
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import { app } from '../firebase/firebase.init';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     const [error, setError] = useState('')
@@ -27,14 +28,14 @@ const Login = () => {
 
         setError('')
         if (!/(?=.*[A-Z])/.test(password)) {
-            setError('please at least 2 uppercase')
+            setError('please at least 1 uppercase')
             return;
         }
-        else if (!/(?=.[0-9])/) {
+        else if (!/(?=.[0-9])/.test(password)) {
             setError('at least one numeric')
             return
         }
-        else if (!/(?=.[!"£$%^&*(){}[]:;'@?><.,])/) {
+        else if (!/(?=.[!"£$%^&*(){}[]:;'@?><.,])/.test(password)) {
             setError('at least one special character')
             return
         }
@@ -55,6 +56,7 @@ const Login = () => {
                 <p className='text-succsess'>{succsess}</p>
                 <button type="submit" className="btn btn-primary">Submit</button>
             </form>
+            <p><small>New to this website? Please <Link to='/register'>Register</Link></small></p>
         </div>
     );
 };
