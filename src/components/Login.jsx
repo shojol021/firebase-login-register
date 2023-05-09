@@ -62,7 +62,7 @@ const Login = () => {
 
         sendPasswordResetEmail(auth, email)
             .then(() => {
-                alert('Password reset email sent!')
+                alert('Password reset email sent')
             })
             .catch((error) => {
                 console.log(error.code);
